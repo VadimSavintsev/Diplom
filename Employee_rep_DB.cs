@@ -6,12 +6,11 @@ public class Employee_rep_DB : IEmployeeModel
     private readonly LoginGenerator _loginGenerator = new LoginGenerator();
     private readonly PasswordGenerator _passwordGenerator = new PasswordGenerator();
     private readonly PasswordHasher _passwordHasher = new PasswordHasher();
-    private readonly SecureEncryption _encryptor;
+    private readonly SecureEncryption _encryptor = new SecureEncryption();;
 
     public Employee_rep_DB(DBConnection dbConnection)
     {
         _dbConnection = dbConnection;
-        _encryptor = new SecureEncryption();
     }
 
     private NpgsqlConnection GetConnection()
