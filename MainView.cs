@@ -1,5 +1,6 @@
 using System.Data;
 using System.Diagnostics;
+using Diplom;
 
 namespace Diplom
 {
@@ -8,7 +9,7 @@ namespace Diplom
         private MainController controller;
         private DataGridView employeeTable;
         private DataTable tableModel;
-        private int currentPage = 0;
+        private int currentPage = 1;
         private int pageSize = 5;
 
         public MainView(MainController controller)
@@ -95,7 +96,7 @@ namespace Diplom
         {
             tableModel.Rows.Clear();
 
-            List<Employee> employees = controller.GetEmployees(pageSize, currentPage);
+            List<Employee> employees = controller.GetEmployees(pageSize, currentPage-1);
             if (employees.Count == 0 && currentPage > 1)
             {
                 currentPage--;
@@ -114,8 +115,8 @@ namespace Diplom
                     employee.FirstName,
                     employee.MiddleName,
                     employee.PassportData,
-                    employee.INN,
-                    employee.SNILS,
+                    employee.Inn,
+                    employee.Snils,
                     employee.PhoneNumber,
                     employee.Email
                 ]);
@@ -155,7 +156,7 @@ namespace Diplom
             }
 
             int selectedRow = employeeTable.SelectedRows[0].Index;
-            int employeeId = controller.GetEmployeeIdByRowIndex((currentPage) * pageSize + selectedRow);
+            int employeeId = controller.GetEmployeeIdByRowIndex((currentPage - 1) * pageSize + selectedRow);
             Employee employee = controller.GetEmployeeById(employeeId);
 
             if (employee != null)
@@ -181,7 +182,7 @@ namespace Diplom
             }
 
             int selectedRow = employeeTable.SelectedRows[0].Index;
-            int employeeId = controller.GetEmployeeIdByRowIndex((currentPage) * pageSize + selectedRow);
+            int employeeId = controller.GetEmployeeIdByRowIndex((currentPage - 1) * pageSize + selectedRow);
             DialogResult confirm = MessageBox.Show("Вы уверены, что хотите удалить работника?", "Подтверждение", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (confirm == DialogResult.Yes)
             {
